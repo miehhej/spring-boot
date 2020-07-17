@@ -47,7 +47,7 @@ pipeline {
 				sh "mvn -DskipTests clean install -f ./spring-boot-samples/spring-boot-sample-web-ui/pom.xml"
 			}
 		}
-		stage ('Upload to NEXUS') {
+		stage ('Upload JAR to NEXUS') {
 			steps {
 				
 				echo "Current workspace is ${env.WORKSPACE}"
@@ -71,21 +71,16 @@ pipeline {
 				}          
 			}
 		}
-        stage ('Deploy to dev') {
+        stage ('Docker & Deploy to Dev') {
         	steps {
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
         		dir ('./ias'){
         			sh "ls -la ${pwd()}"
         			sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker login ${NEXUS_DOCKER_URL} -u${nexus_creds_USR} -p${nexus_creds_PSW}  && docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker  logout ${NEXUS_DOCKER_URL} "
-        		//              	sh 'docker  logout ${NEXUS_DOCKER_URL}' 
-        		
-        	
         	//		sh 'docker container stop $(docker container ls --all --quiet|grep -v 449ae5e03ac8)'
 			//	#	docker container rm $(docker container ls –aq)
 					echo "${PN}"
-			//	echo "${port}"
         	//		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
-        	//		script 
         	          ansiColor('xterm') {
         				ansiblePlaybook([
         				    playbook: './ci-playbook.yml',
@@ -95,8 +90,7 @@ pipeline {
         					becomeUser: 'ec2-user',
         					sudoUser: 'ec2-user',
         					colorized: true,
-        					ANSIBLE_HOST_KEY_CHECKING: false,
-        					
+        					disableHostKeyChecking: true,
         					extraVars : [
           						"deployType": "CI",
           						"build_Number": "${BUILD_NUMBER}",
@@ -106,11 +100,8 @@ pipeline {
           				]	)
         					}}
         				}
-        		//	
         		}
-        		
         		}
-		} //}
 
 
 
