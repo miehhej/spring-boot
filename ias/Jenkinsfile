@@ -20,7 +20,7 @@ pipeline {
 			}		}
     	stage('Port Number input') {
     		steps {
-    		input('Do you want to proceed?')
+    		// input('Do you want to proceed?')
     			script {
     				def port = input(
     					id:				'portnumber',
@@ -68,7 +68,7 @@ pipeline {
         		sh 'docker container stop $(docker container ls --all --quiet)'
 			//	#	docker container rm $(docker container ls –aq)
 				script {
-        			sh 'docker run -d  -p $port.number:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+        			sh 'docker run -d  -p ${port.number}:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
         		}
         		}
 		}	} } }
