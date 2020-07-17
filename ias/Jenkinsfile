@@ -11,6 +11,7 @@ pipeline {
         NEXUS_URL = "localhost:8081"
         NEXUS_REPOSITORY = "GrW"
         NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
+        ARTIFACTTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
     }
 	stages {
 		stage('SCM checkout') {
@@ -49,7 +50,7 @@ pipeline {
 						artifacts: [[
 							artifactId: 'spring-boot-sample-web-ui', 
 							classifier: '', 
-							file: './spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar',
+							file: ARTIFACTTPATH,
 							type: 'jar'
 						]]
 					)
