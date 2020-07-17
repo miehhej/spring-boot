@@ -31,7 +31,7 @@ pipeline {
 						[
 						artifactId: 'spring-boot-sample-web-ui', 
 						classifier: '', 
-						file: '$WORKDIR/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', 
+						file: WORKDIR/'spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', 
 						type: 'jar'
 						]
 					], 
