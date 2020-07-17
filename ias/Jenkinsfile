@@ -86,9 +86,10 @@ pipeline {
 			//	echo "${port}"
         	//		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
         	//		script 
+        	          ansiColor('xterm') {
         				ansiblePlaybook([
         				    playbook: './ci-playbook.yml',
-        					inventory: './hosts.yml',
+        					inventory: './hosts.ini',
         					credentialsId: 'host_ssh_creds',
         					become: true,
         					becomeUser: 'ec2-user',
@@ -102,7 +103,7 @@ pipeline {
           						"port_number": "${PN}"
           					]
           				]	)
-        					}
+        					}}
         				}
         		//	
         		}
