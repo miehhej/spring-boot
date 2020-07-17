@@ -54,7 +54,7 @@ pipeline {
 							type: 'jar'
 						]]
 					)
-				}           
+				}          
 			}
 		}
         stage ('Deploy to dev') {
