@@ -59,12 +59,15 @@ pipeline {
 		}
         stage ('Deploy to dev') {
         	steps {
+        		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
+        		dir ('.ias'){
         		sh "ls -la ${pwd()}"
-        		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
+        		sh 'docker build . -t grw:$BUILD_NUMBER'
         	
         		sh 'docker container stop $(docker container ls –aq)'
 			//	#	docker container rm $(docker container ls –aq)
-        		sh 'docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+        		sh 'docker run -d  -p Port.Number:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+        		}
 		}	} } } 
 
 
