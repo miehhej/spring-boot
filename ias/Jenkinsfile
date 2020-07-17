@@ -34,7 +34,7 @@ pipeline {
     		//		input('Do you want to proceed?')
     		//		}
     		input id: 'pn', message: 'Enter port from range 1000-65535', parameters: [string(defaultValue: '8082', description: '', name: 'PortNumber', trim: true)]
-    		echo pn.PortNumber			
+    		echo "${pn.PortNumber}"
     					}    	}
     	stage("Build") {
         	steps {
