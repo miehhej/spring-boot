@@ -23,11 +23,10 @@ pipeline {
     				def Port = input(
     					id:				'portnumber',
     					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
-    					parameters : [	
+    					parameters : [string(	
     						name:'number',
-    						$class: 		'TextParameterDefinition',
     						defaultValue: 	'8082'
-    					]
+    					)]
     				)    			}    		}    	}
     	stage("Build") {
         	steps {
