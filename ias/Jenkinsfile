@@ -29,9 +29,10 @@ pipeline {
     						name:'number',
     						defaultValue: 	'8082'
     					)]
-    				)    			}    	
+    				)    			    	
     				sh "echo $port.number"
     				input('Do you want to proceed?')
+    				}
     					}    	}
     	stage("Build") {
         	steps {
