@@ -85,15 +85,15 @@ pipeline {
         			sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
         	//		script 
         				ansiblePlaybook([
-        				    playbook: './ias/ci_-playbook.yml'
-        					inventory: 'hosts.ini'
-        					credentialsId: 'host_ssh_creds'
-        					become: true
-        					sudoUser(String user = 'ec2-user')
-        					colorized: true
+        				    playbook: './ias/ci_-playbook.yml',
+        					inventory: 'hosts.ini',
+        					credentialsId: 'host_ssh_creds',
+        					become: true,
+        					sudoUser: 'ec2-user',
+        					colorized: true,
         					
         					extraVars : [
-          						"deployType", "CI"
+          						"deployType", "CI",
           						"build_Number":$BUILD_NUMBER,
           						"src_image": ${NEXUS_DOCKER_EXT_URL}/grw:$BUILD_NUMBER
           					]
