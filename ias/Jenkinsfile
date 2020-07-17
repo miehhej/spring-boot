@@ -38,7 +38,7 @@ pipeline {
                         credentialsId: NEXUS_CREDENTIAL_ID,
                         artifacts: [
                             [artifactId: pom.artifactId, 
-                            classifier: '',                      
+                            classifier: '',
                             file: artifactPath,
                             type: pom.packaging
                             ],
@@ -47,22 +47,15 @@ pipeline {
                                 file: "pom.xml",
                                 type: "pom"
                             ]
+                        ]
 					);
 				} else {
                         error "*** File: ${artifactPath}, could not be found";
                   }
 			}
 		}
-
-        //    post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-        //        success {
-        //            junit '**/target/surefire-reports/TEST-*.xml'
-        //            archiveArtifacts 'target/*.jar'
-        //        }
-        //    }
-        }
+    }    
     }
 }
+
 
