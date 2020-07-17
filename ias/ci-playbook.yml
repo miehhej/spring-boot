@@ -27,7 +27,7 @@
       name: "grw_{{ build_Number }}"
       image: "{{ src_image }}"
       ports:
-        - "8090:8080/tcp"
+        - "{{ port_number }}:8080/tcp"
   - name: Log out of Nexus
     become: yes
     become_user: ec2-user
