@@ -30,7 +30,7 @@ pipeline {
     				)    			}    		}    	}
     	stage("Build") {
         	steps {
-				sh "mvn -DskipTests clean install -f ./spring-boot-samples/pom.xml"
+				sh "mvn -DskipTests clean install -f ./spring-boot-samples/spring-boot-sample-web-ui/pom.xml"
 			}
 		}
 		stage ('Upload to NEXUS') {
@@ -41,7 +41,7 @@ pipeline {
 						[
 						artifactId: 'spring-boot-sample-web-ui', 
 						classifier: '', 
-						file: './spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar',
+						file: "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar",
 						type: 'jar'
 						]
 					], 
