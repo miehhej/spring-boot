@@ -59,7 +59,7 @@ pipeline {
 						artifacts: [[
 							artifactId: 'spring-boot-sample-web-ui', 
 							classifier: '', 
-							file: ARTIFACTTPATH,
+							file: ARTIFACTPATH,
 							type: 'jar'
 						]]
 					)
