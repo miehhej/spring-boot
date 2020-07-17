@@ -39,12 +39,6 @@ pipeline {
 				//sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
 				script {
 					nexusArtifactUploader( 
-						artifacts: [
-							artifactId: 'spring-boot-sample-web-ui', 
-							classifier: '', 
-							file: "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar",
-							type: 'jar'
-						], 
 						credentialsId: NEXUS_CREDENTIAL_ID,
 						groupId: 'gr.id', 
 						nexusUrl: NEXUS_URL, 
@@ -52,9 +46,16 @@ pipeline {
 						protocol: NEXUS_PROTOCOL, 
 						repository: NEXUS_REPOSITORY, 
 						version: BUILD_NUMBER
+						artifacts: [
+							artifactId: 'spring-boot-sample-web-ui', 
+							classifier: '', 
+							file: "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar",
+							type: 'jar'
+						]
 					)
-						
-				}            } }  
+				}            
+			} 
+		}
         stage ('Deploy to dev') {
         	steps {
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
