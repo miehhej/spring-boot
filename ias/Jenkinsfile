@@ -20,7 +20,7 @@ pipeline {
     }
     
 	stages {
-	  ansiColor('xterm') {
+	  //ansiColor('xterm') {
 		stage('SCM checkout') {
 			steps{
 				git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
@@ -108,7 +108,7 @@ pipeline {
         		}
         		
         		}
-		} }
+		} //}
 
 
 
