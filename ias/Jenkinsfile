@@ -85,7 +85,7 @@ pipeline {
         				ansiblePlaybook([
         				    playbook: './ci-playbook.yml',
         					inventory: './hosts.ini',
-        					credentialsId: 'host_ssh_creds',
+        					credentialsId: "${host_ssh_creds}",
         					become: true,
         					becomeUser: 'ec2-user',
         					sudoUser: 'ec2-user',
