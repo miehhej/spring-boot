@@ -93,8 +93,8 @@ pipeline {
         					colorized: true,
         					
         					extraVars : [
-          						"deployType", "CI",
-          						"build_Number":${BUILD_NUMBER},
+          						"deployType": "CI",
+          						"build_Number": ${BUILD_NUMBER},
           						"src_image": "${NEXUS_DOCKER_EXT_URL}/grw:${BUILD_NUMBER}"
           					]
           				]	)
