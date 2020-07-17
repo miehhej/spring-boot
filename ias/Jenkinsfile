@@ -66,7 +66,9 @@ pipeline {
         	
         		sh 'docker container stop $(docker container ls --all --quiet)'
 			//	#	docker container rm $(docker container ls –aq)
-        		sh 'docker run -d  -p Port.Number:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+				script {
+        			sh 'docker run -d  -p Port.Number:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+        		}
         		}
 		}	} } }
 
