@@ -26,7 +26,7 @@ pipeline {
     					id:				'portnumber',
     					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
     					parameters : [	
-    					$class: 		string
+    					$class: 		string,
     					defaultValue: 	'8082'
     					]
     				)
