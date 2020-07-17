@@ -30,7 +30,7 @@ pipeline {
     			script {
     			    
     			    def jobs = sh(
-    			      script:docker image ls localhost:8082/grw --format  "{{ .Tag }}" ',
+    			      script: 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" ',
     			      returnStdout: true,
     			      returnStatus: true
     			    ).trim()
