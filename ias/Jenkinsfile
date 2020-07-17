@@ -30,7 +30,7 @@ pipeline {
     						defaultValue: 	'8082'
     					)]
     				)    			    	
-    				sh "echo $port.number"
+    				sh "echo ${port.number}"
     				input('Do you want to proceed?')
     				}
     					}    	}
