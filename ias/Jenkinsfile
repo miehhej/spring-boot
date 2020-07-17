@@ -30,8 +30,8 @@ pipeline {
     						defaultValue: 	'8082'
     					)]
     				)
-    				PN = ${port}			    	
-    				echo ${port}
+    				// PN = ${port}			    	
+    				echo "${port}"
     				input('Do you want to proceed?')
     				}
     					}    	}
