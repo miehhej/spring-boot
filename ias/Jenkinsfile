@@ -79,7 +79,7 @@ pipeline {
 			//	#	docker container rm $(docker container ls –aq)
 				echo "${PN}"
 			//	echo "${port}"
-        		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER"
+        		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
         		}
 		}	} } }
 
