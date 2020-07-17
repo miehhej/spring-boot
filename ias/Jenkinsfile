@@ -66,7 +66,7 @@ pipeline {
         	}
         	steps('Run Container') {
         		sh 'docker container stop $(docker container ls –aq)'
-				#	docker container rm $(docker container ls –aq)
+			//	#	docker container rm $(docker container ls –aq)
         		sh 'docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
         	}
         
