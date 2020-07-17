@@ -95,6 +95,7 @@ pipeline {
         					becomeUser: 'ec2-user',
         					sudoUser: 'ec2-user',
         					colorized: true,
+        					ANSIBLE_HOST_KEY_CHECKING: false,
         					
         					extraVars : [
           						"deployType": "CI",
