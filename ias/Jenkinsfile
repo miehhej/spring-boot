@@ -27,7 +27,7 @@ pipeline {
 		stage ('Upload to NEXUS') {
 			steps {
 				nexusArtifactUploader {
-					nexusVersion('$env.NEXUS_VERSION'),
+					nexusVersion:$env.NEXUS_VERSION,
                 	protocol('$env.NEXUS_PROTOCOL'),
                 	nexusUrl('$env.NEXUS_URL'),
 	               	groupId('gr.id'),
