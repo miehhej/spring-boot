@@ -60,7 +60,7 @@ pipeline {
         stage ('Deploy to dev') {
         	steps {
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
-        		dir ('.ias'){
+        		dir ('./ias'){
         		sh "ls -la ${pwd()}"
         		sh 'docker build . -t grw:$BUILD_NUMBER'
         	
