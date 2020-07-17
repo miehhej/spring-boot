@@ -38,6 +38,7 @@ pipeline {
 			steps {
 				echo "Current workspace is ${env.WORKSPACE}"
 				//sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
+				dir('./spring-boot-samples/spring-boot-sample-web-ui'){
 				script {
 					nexusArtifactUploader( 
 						credentialsId: NEXUS_CREDENTIAL_ID,
@@ -50,11 +51,11 @@ pipeline {
 						artifacts: [[
 							artifactId: 'spring-boot-sample-web-ui', 
 							classifier: '', 
-							file: ARTIFACTTPATH,
+							file: 'spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar',
 							type: 'jar'
 						]]
 					)
-				}            
+				}           } 
 			} 
 		}
         stage ('Deploy to dev') {
