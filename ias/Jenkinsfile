@@ -47,11 +47,11 @@ pipeline {
 						], 
 						credentialsId: NEXUS_CREDENTIAL_ID,
 						groupId: 'gr.id', 
-						nexusUrl: '$NEXUS_URL', 
-						nexusVersion: '$NEXUS_VERSION', 
-						protocol: '$NEXUS_PROTOCOL', 
-						repository: '$NEXUS_REPOSITORY', 
-						version: '$BUILD_NUMBER' 
+						nexusUrl: NEXUS_URL, 
+						nexusVersion: NEXUS_VERSION, 
+						protocol: NEXUS_PROTOCOL, 
+						repository: NEXUS_REPOSITORY, 
+						version: $BUILD_NUMBER 
 					)
 						
 				}            } }  
