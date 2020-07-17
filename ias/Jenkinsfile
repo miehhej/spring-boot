@@ -18,6 +18,7 @@ pipeline {
         nexus_creds = credentials("6f6c7b81-b8ac-4229-a669-fd7701a03500")
         ARTIFACTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
     }
+    ansiColor('xterm') {
 	stages {
 		stage('SCM checkout') {
 			steps{
@@ -85,10 +86,11 @@ pipeline {
         	//		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
         	//		script 
         				ansiblePlaybook([
-        				    playbook: './ias/ci_-playbook.yml',
+        				    playbook: './ias/ci-playbook.yml',
         					inventory: 'hosts.ini',
         					credentialsId: 'host_ssh_creds',
         					become: true,
+        					becomeUser: 'ec2-user',
         					sudoUser: 'ec2-user',
         					colorized: true,
         					
@@ -105,7 +107,7 @@ pipeline {
         		}
         		
         		}
-		}
+		} }
 
 
 
