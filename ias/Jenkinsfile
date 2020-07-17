@@ -37,7 +37,6 @@ pipeline {
 			steps {
 				echo "Current workspace is ${env.WORKSPACE}"
 				sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
-			//	dir ('"./spring-boot-samples/spring-boot-sample-web-ui/') {
 				script {
 					nexusArtifactUploader ( 
 						artifacts: [
@@ -55,7 +54,7 @@ pipeline {
 						version: '$BUILD_NUMBER' 
 					)
 						
-				}            } } } 
+				}            } }  
         stage ('Deploy to dev') {
         	steps {
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
