@@ -5,7 +5,7 @@ pipeline {
         maven "maven363"
     }
     environment {
-    	workdir = "./spring-boot-samples/spring-boot-sample-web-ui"
+    	WORKDIR = "./spring-boot-samples/spring-boot-sample-web-ui"
         NEXUS_VERSION = 'nexus3'
         NEXUS_PROTOCOL = 'http'
         NEXUS_URL = "localhost:8081"
@@ -31,21 +31,22 @@ pipeline {
 						[
 						artifactId: 'spring-boot-sample-web-ui', 
 						classifier: '', 
-						file: './spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', 
+						file: '$WORKDIR/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', 
 						type: 'jar'
 						]
 					], 
-						credentialsId: '6f6c7b81-b8ac-4229-a669-fd7701a03500',
+						credentialsId: NEXUS_CREDENTIAL_ID,
 						groupId: 'gr.id', 
-						nexusUrl: 'localhost:8081', 
-						nexusVersion: 'nexus3', 
-						protocol: 'http', 
-						repository: 'GrW', 
+						nexusUrl: $NEXUS_URL, 
+						nexusVersion: $NEXUS_VERSION, 
+						protocol: $NEXUS_PROTOCOL, 
+						repository: $NEXUS_REPOSITORY, 
 						version: '$BUILD_NUMBER'
 				}
 				
             }
         }
+        
 	}
 }
 
