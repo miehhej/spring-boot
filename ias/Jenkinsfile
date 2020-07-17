@@ -14,11 +14,16 @@ pipeline {
     }
 
 	stages {
-    	stage('Build') {
-        	steps {
+		stage('SCM checkout') {
+			steps{
 				git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
+			}
+		}
+    	stage("Build") {
+        	steps {
 				sh "mvn -DskipTests clean install -f ./spring-boot-samples/pom.xml"
 			}
+		}
 		stage ('Upload to NEXUS') {
 			script {
 				pom = readMavenPom file:"env.workdir/pom.xml";
