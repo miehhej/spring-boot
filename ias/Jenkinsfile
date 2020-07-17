@@ -33,7 +33,9 @@ pipeline {
     			    imageslist = "${jobs}"
     			    // aaa = input message: 'User input required', ok: 'Release!', parameters: [choice(name: 'RELEASE_SCOPE', choices: "${imageslist}", description: 'What is the release scope?' )]
     			    def aaa=""
-    			    echo imageslist
+    			    echo "---------------"
+    			    echo "${jobs}"
+    			    echo "---------------"
                     imageslist.each {
                       aaa += it + '\n'
                     }
