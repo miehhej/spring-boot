@@ -2,25 +2,57 @@ pipeline {
     agent any
 
     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
         maven "maven363"
     }
+    environment {
+    	workdir = "./spring-boot-samples/spring-boot-sample-web-ui"
+        NEXUS_VERSION = "nexus3"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "localhost:8081"
+        NEXUS_REPOSITORY = "GrW"
+        NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
+    }
 
-    stages {
-        stage('Build') {
-            steps {
-                // Get some code from a GitHub repository
-		git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
-            //    git 'https://github.com/miehhej/spring-boot.git'
-
-                // Run Maven on a Unix agent.
-                //sh "mvn -Dmaven.test.failure.ignore=true clean package"
-		//sh "mvn install -DskipTests "
-		sh "mvn -DskipTests clean install -f ./spring-boot-samples/pom.xml"
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
-            }
+	stages {
+    	stage('Build') {
+        	steps {
+				git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
+				sh "mvn -DskipTests clean install -f ./spring-boot-samples/pom.xml"
+			}
+		stage ('Upload to NEXUS') {
+			script {
+				pom = readMavenPom file:"env.workdir/pom.xml";
+				filesByGlob = findFiles(glob: "env.workdir/target/*.${pom.packaging}");
+				echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+				artifactPath = filesByGlob[0].path;
+				artifactExists = fileExists artifactPath;
+				if(artifactExists) {
+					echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+					nexusArtifactUploader (
+						nexusVersion: NEXUS_VERSION,
+                        protocol: NEXUS_PROTOCOL,
+                        nexusUrl: NEXUS_URL,
+                        groupId: pom.groupId,
+                        version: pom.version,
+                        repository: NEXUS_REPOSITORY,
+                        credentialsId: NEXUS_CREDENTIAL_ID,
+                        artifacts: [
+                            [artifactId: pom.artifactId, 
+                            classifier: '',                      
+                            file: artifactPath,
+                            type: pom.packaging
+                            ],
+                            [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"
+                            ]
+					);
+				} else {
+                        error "*** File: ${artifactPath}, could not be found";
+                  }
+			}
+		}
 
         //    post {
                 // If Maven was able to run the tests, even if some of the test
