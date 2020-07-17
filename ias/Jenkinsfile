@@ -12,7 +12,8 @@ pipeline {
         NEXUS_DOCKER_URL = "localhost:8082"
         NEXUS_REPOSITORY = "GrW"
         NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
-        ARTIFACTTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
+        nexus_creds = credentials(NEXUS_CREDENTIAL_ID)
+        ARTIFACTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
     }
 	stages {
 		stage('SCM checkout') {
@@ -67,7 +68,6 @@ pipeline {
 		}
         stage ('Deploy to dev') {
         	steps {
-        		nexus_creds = credentials(${NEXUS_CREDENTIAL_ID})
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
         		dir ('./ias'){
         		sh "ls -la ${pwd()}"
