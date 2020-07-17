@@ -27,7 +27,7 @@ pipeline {
 		stage ('Upload to NEXUS') {
 			steps {
 				script {
-					nexusArtifactUploader artifacts: [[artifactId: 'spring-boot-sample-web-ui', classifier: '', file: './spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', type: 'jar']], credentialsId: '6f6c7b81-b8ac-4229-a669-fd7701a03500', groupId: 'gr.id', nexusUrl: 'localhost:801', nexusVersion: 'nexus3', protocol: 'http', repository: 'GrW', version: '$BUILD_NUMBER'
+					nexusArtifactUploader artifacts: [[artifactId: 'spring-boot-sample-web-ui', classifier: '', file: './spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar', type: 'jar']], credentialsId: '6f6c7b81-b8ac-4229-a669-fd7701a03500', groupId: 'gr.id', nexusUrl: 'localhost:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'GrW', version: '$BUILD_NUMBER'
 				}
 				
             }
