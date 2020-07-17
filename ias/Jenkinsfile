@@ -72,7 +72,7 @@ pipeline {
         	
         		sh 'docker container stop $(docker container ls --all --quiet)'
 			//	#	docker container rm $(docker container ls –aq)
-				echo $"PN"
+				echo "${PN}"
 				echo "${port}"
 				script {
         			sh 'docker run -d  -p "${port}":8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
