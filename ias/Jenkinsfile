@@ -97,11 +97,12 @@ pipeline {
           						"src_image": "${NEXUS_DOCKER_EXT_URL}/grw:${BUILD_NUMBER}",
           						"port_number": "${PN}"
           					]
-          				]	)
-        					}}
-        				}
+          				])
+        			}
         		}
-        		}
+        	}
+        }
+    }
 }
 
 
