@@ -37,23 +37,25 @@ pipeline {
 			steps {
 				echo "Current workspace is ${env.WORKSPACE}"
 				sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
+			//	dir ('"./spring-boot-samples/spring-boot-sample-web-ui/') {
 				script {
-					nexusArtifactUploader artifacts: [
-						[
-						artifactId: 'spring-boot-sample-web-ui', 
-						classifier: '', 
-						file: "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar",
-						type: 'jar'
-						]
-					], 
-						credentialsId: NEXUS_CREDENTIAL_ID,
+					nexusArtifactUploader ( 
+						artifacts: [
+							artifactId: 'spring-boot-sample-web-ui', 
+							classifier: '', 
+							file: "./spring-boot-samples/spring-boot-sample-web-ui/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar",
+							type: 'jar'
+						], 
+						credentialsId: env.NEXUS_CREDENTIAL_ID,
 						groupId: 'gr.id', 
-						nexusUrl: NEXUS_URL, 
+						nexusUrl: env.NEXUS_URL, 
 						nexusVersion: '$NEXUS_VERSION', 
 						protocol: '$NEXUS_PROTOCOL', 
 						repository: '$NEXUS_REPOSITORY', 
-						version: '$BUILD_NUMBER'
-				}            }        }
+						version: '$BUILD_NUMBER' 
+					)
+						
+				}            } } } 
         stage ('Deploy to dev') {
         	steps {
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
