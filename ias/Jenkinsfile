@@ -59,6 +59,7 @@ pipeline {
 		}
         stage ('Deploy to dev') {
         	steps {
+        		sh "ls -la ${pwd()}"
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
         	
         		sh 'docker container stop $(docker container ls –aq)'
