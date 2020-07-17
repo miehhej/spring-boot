@@ -12,13 +12,11 @@ pipeline {
         NEXUS_REPOSITORY = "GrW"
         NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
     }
-
 	stages {
 		stage('SCM checkout') {
 			steps{
 				git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
-			}
-		}
+			}		}
     	stage('Port Number input') {
     		steps {
     			script {
@@ -29,10 +27,7 @@ pipeline {
     					$class: 		string,
     					defaultValue: 	'8082'
     					]
-    				)
-    			}
-    		}
-    	}
+    				)    			}    		}    	}
     	stage("Build") {
         	steps {
 				sh "mvn -DskipTests clean install -f ./spring-boot-samples/pom.xml"
@@ -56,23 +51,15 @@ pipeline {
 						protocol: '$NEXUS_PROTOCOL', 
 						repository: '$NEXUS_REPOSITORY', 
 						version: '$BUILD_NUMBER'
-				}
-				
-            }
-        }
+				}            }        }
         stage ('Deploy to dev') {
         	steps {
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
-        	}
-        	//steps {
+        	
         		sh 'docker container stop $(docker container ls –aq)'
 			//	#	docker container rm $(docker container ls –aq)
         		sh 'docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
-        	//}
-        
-		}
-	}
-}
+		}	} } } 
 
 
 
