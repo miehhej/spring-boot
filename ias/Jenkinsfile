@@ -48,7 +48,7 @@ pipeline {
     			        message: 'Choose properties file', 
     			        parameters: [ [
     			          $class: 'ChoiceParameterDefinition', 
-    			          choices: "${aaa}", 
+    			          choices: "${jobs}", 
     			          description: 'Properties', 
     			          name: 'prop'
     			        ] ]
