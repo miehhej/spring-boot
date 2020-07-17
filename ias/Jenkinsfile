@@ -94,9 +94,9 @@ pipeline {
         					
         					extraVars : [
           						"deployType": "CI",
-          						"build_Number": ${BUILD_NUMBER},
+          						"build_Number": "${BUILD_NUMBER}",
           						"src_image": "${NEXUS_DOCKER_EXT_URL}/grw:${BUILD_NUMBER}",
-          						"port_number": ${PN}
+          						"port_number": "${PN}"
           					]
           				]	)
         					}
