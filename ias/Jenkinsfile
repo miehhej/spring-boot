@@ -29,7 +29,11 @@ pipeline {
     		// input('Do you want to proceed?')
     			script {
     			    
-    			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
+    			    def jobs = sh(
+    			      script:docker image ls localhost:8082/grw --format  "{{ .Tag }}" ',
+    			      returnStdout: true,
+    			      returnStatus: true
+    			    ).trim()
     			    imageslist = "${jobs}"
     			    // aaa = input message: 'User input required', ok: 'Release!', parameters: [choice(name: 'RELEASE_SCOPE', choices: "${imageslist}", description: 'What is the release scope?' )]
     			    def aaa=""
