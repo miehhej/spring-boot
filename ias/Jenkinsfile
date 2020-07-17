@@ -9,6 +9,7 @@ pipeline {
         NEXUS_VERSION = 'nexus3'
         NEXUS_PROTOCOL = 'http'
         NEXUS_URL = "localhost:8081"
+        NEXUS_DOCKER_URL = "localhost:8082"
         NEXUS_REPOSITORY = "GrW"
         NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
         ARTIFACTTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
@@ -27,7 +28,7 @@ pipeline {
     					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
     					parameters : [string(	
     						name:'number',
-    						defaultValue: 	'8082'
+    						defaultValue: 	'8090'
     					)]
     				)
     				PN = "${port}"			    	
@@ -42,6 +43,7 @@ pipeline {
 		}
 		stage ('Upload to NEXUS') {
 			steps {
+				nexus_creds = credentials(env.NEXUS_CREDENTIAL_ID)
 				echo "Current workspace is ${env.WORKSPACE}"
 				//sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
 				script {
@@ -68,9 +70,11 @@ pipeline {
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
         		dir ('./ias'){
         		sh "ls -la ${pwd()}"
-        		sh 'docker build . -t grw:$BUILD_NUMBER'
+        		sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker login ${NEXUS_DOCKER_URL} && docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER "
+        		sh 'docker logout'
+        		
         	
-        		sh 'docker container stop $(docker container ls --all --quiet)'
+        		sh 'docker container stop $(docker container ls --all --quiet|grep -v 449ae5e03ac8)'
 			//	#	docker container rm $(docker container ls –aq)
 				echo "${PN}"
 			//	echo "${port}"
