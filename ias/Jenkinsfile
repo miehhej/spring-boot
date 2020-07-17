@@ -20,8 +20,9 @@ pipeline {
 			}		}
     	stage('Port Number input') {
     		steps {
+    		input('Do you want to proceed?')
     			script {
-    				def Port = input(
+    				def port = input(
     					id:				'portnumber',
     					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
     					parameters : [string(	
@@ -67,7 +68,7 @@ pipeline {
         		sh 'docker container stop $(docker container ls --all --quiet)'
 			//	#	docker container rm $(docker container ls –aq)
 				script {
-        			sh 'docker run -d  -p ${Port.Number}:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
+        			sh 'docker run -d  -p $port.number:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
         		}
         		}
 		}	} } }
