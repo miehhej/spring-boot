@@ -28,6 +28,7 @@ pipeline {
     		steps {
     		// input('Do you want to proceed?')
     			script {
+    			    def aaa = [1,2,3,4,5]
     			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
     			    imageslist = "${jobs}"
     			    echo "${imageslist}"
@@ -36,7 +37,7 @@ pipeline {
     			        message: 'Choose properties file', 
     			        parameters: [ [
     			          $class: 'ChoiceParameterDefinition', 
-    			          choices: "${imageslist}", 
+    			          choices: "${aaa}", 
     			          description: 'Properties', 
     			          name: 'prop'
     			        ] ]
