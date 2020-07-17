@@ -35,7 +35,7 @@ pipeline {
 						type: 'jar'
 						]
 					], 
-						credentialsId: '6f6c7b81-b8ac-4229-a669-fd7701a03500', 
+						credentialsId: '6f6c7b81-b8ac-4229-a669-fd7701a03500',
 						groupId: 'gr.id', 
 						nexusUrl: 'localhost:8081', 
 						nexusVersion: 'nexus3', 
