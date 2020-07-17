@@ -35,6 +35,7 @@ pipeline {
 		}
 		stage ('Upload to NEXUS') {
 			steps {
+				echo "Current workspace is ${env.WORKSPACE}"
 				script {
 					nexusArtifactUploader artifacts: [
 						[
