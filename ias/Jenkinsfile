@@ -28,7 +28,7 @@ pipeline {
     		steps {
     		// input('Do you want to proceed?')
     			script {
-    			    def jobs = sh "docker image ls localhost:8082/grw --format  {{ .Tag }} "
+    			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
     			    echo "${jobs}"
     				def port = input(
     					id:				'portnumber',
