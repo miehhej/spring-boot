@@ -29,7 +29,10 @@ pipeline {
     						name:'number',
     						defaultValue: 	'8082'
     					)]
-    				)    			}    		}    	}
+    				)    			}    	
+    				echo ${port.number}
+    				input('Do you want to proceed?')
+    					}    	}
     	stage("Build") {
         	steps {
 				sh "mvn -DskipTests clean install -f ./spring-boot-samples/spring-boot-sample-web-ui/pom.xml"
