@@ -74,11 +74,8 @@ pipeline {
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
         		dir ('./ias'){
         			sh "ls -la ${pwd()}"
-        			sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && \ 
-        			    docker login ${NEXUS_DOCKER_URL} -u${nexus_creds_USR} -p${nexus_creds_PSW}  && \ 
-        			    docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && \
-        			    docker  logout ${NEXUS_DOCKER_URL}"
-        		//              	sh 'docker  logout ${NEXUS_DOCKER_URL}'
+        			sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker login ${NEXUS_DOCKER_URL} -u${nexus_creds_USR} -p${nexus_creds_PSW}  && docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker  logout ${NEXUS_DOCKER_URL} "
+        		//              	sh 'docker  logout ${NEXUS_DOCKER_URL}' 
         		
         	
         	//		sh 'docker container stop $(docker container ls --all --quiet|grep -v 449ae5e03ac8)'
