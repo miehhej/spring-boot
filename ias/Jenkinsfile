@@ -39,6 +39,7 @@ pipeline {
 				echo "Current workspace is ${env.WORKSPACE}"
 				//sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
 				dir('./spring-boot-samples/spring-boot-sample-web-ui'){
+				fileExists('spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar')
 				script {
 					nexusArtifactUploader( 
 						credentialsId: NEXUS_CREDENTIAL_ID,
