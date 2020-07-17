@@ -62,12 +62,12 @@ pipeline {
         }
         stage('Deploy to dev')
         	steps('Build Docker Image') {
-        		docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER
+        		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
         	}
         	steps('Run Container') {
-        		docker container stop $(docker container ls –aq)
+        		sh 'docker container stop $(docker container ls –aq)'
 				#	docker container rm $(docker container ls –aq)
-        		docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER
+        		sh 'docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
         	}
         
 		}
