@@ -21,20 +21,19 @@ pipeline {
     	stage('Port Number input') {
     		steps {
     		// input('Do you want to proceed?')
-    		//	script {
-    		//		def port = input(
-    		//			id:				'portnumber',
-    		//			message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
-    		//			parameters : [string(	
-    		//				name:'number',
-    		//				defaultValue: 	'8082'
-    		//			)]
-    		//		)    			    	
-    		//		echo port.number
-    		//		input('Do you want to proceed?')
-    		//		}
-    		input id: 'pn', message: 'Enter port from range 1000-65535', parameters: [string(defaultValue: '8082', description: '', name: 'PortNumber', trim: true)]
-    		echo "${input.PortNumber}"
+    			script {
+    				def port = input(
+    					id:				'portnumber',
+    					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
+    					parameters : [string(	
+    						name:'number',
+    						defaultValue: 	'8082'
+    					)]
+    				)
+    				PN = ${port}			    	
+    				echo ${port}
+    				input('Do you want to proceed?')
+    				}
     					}    	}
     	stage("Build") {
         	steps {
