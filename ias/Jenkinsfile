@@ -51,7 +51,7 @@ pipeline {
 						nexusVersion: NEXUS_VERSION, 
 						protocol: NEXUS_PROTOCOL, 
 						repository: NEXUS_REPOSITORY, 
-						version: '$BUILD_NUMBER' 
+						version: ${BUILD_NUMBER}
 					)
 						
 				}            } }  
