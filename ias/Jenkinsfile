@@ -18,8 +18,9 @@ pipeline {
         nexus_creds = credentials("6f6c7b81-b8ac-4229-a669-fd7701a03500")
         ARTIFACTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
     }
-    ansiColor('xterm') {
+    
 	stages {
+	  ansiColor('xterm') {
 		stage('SCM checkout') {
 			steps{
 				git branch: '2.1.x', url: 'https://github.com/miehhej/spring-boot.git'
