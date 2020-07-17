@@ -1,6 +1,3 @@
-def getArray(){
-    			      return [1,2,3,4,5]
-    			    }
 pipeline {
     agent any
 
@@ -20,7 +17,6 @@ pipeline {
         host_ssh_creds = "901106e2-c876-49b7-af09-1d88e9fd6212"
         nexus_creds = credentials("6f6c7b81-b8ac-4229-a669-fd7701a03500")
         ARTIFACTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
-        aaa = getArray()
     }
     
 	stages {
@@ -35,6 +31,8 @@ pipeline {
     			    
     			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
     			    imageslist = "${jobs}"
+    			    aaa = input message: 'User input required', ok: 'Release!', parameters: [choice(name: 'RELEASE_SCOPE', choices: "${imageslist}", description: 'What is the release scope?' )]
+            
     			    echo "${imageslist}"
     			    def selectedProperty = input(
     			        id: 'userInput', 
