@@ -36,6 +36,7 @@ pipeline {
 		stage ('Upload to NEXUS') {
 			steps {
 				echo "Current workspace is ${env.WORKSPACE}"
+				sh "ls -la ${pwd()}/spring-boot-samples/spring-boot-sample-web-ui/target" 
 				script {
 					nexusArtifactUploader artifacts: [
 						[
