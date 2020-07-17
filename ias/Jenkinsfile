@@ -60,15 +60,15 @@ pipeline {
 				
             }
         }
-        stage('Deploy to dev'){
+        stage ('Deploy to dev') {
         	steps {
         		sh 'docker build ./ias/Dockerfile -t grw:$BUILD_NUMBER'
         	}
-        	steps {
+        	//steps {
         		sh 'docker container stop $(docker container ls –aq)'
 			//	#	docker container rm $(docker container ls –aq)
         		sh 'docker run -d  -p env.PortNumber:8080 --name grw_$BUILD_NUMBER grw:$BUILD_NUMBER'
-        	}
+        	//}
         
 		}
 	}
