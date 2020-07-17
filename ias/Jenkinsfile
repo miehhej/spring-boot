@@ -29,12 +29,12 @@ pipeline {
     		// input('Do you want to proceed?')
     			script {
     			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
-    			    def selectedProperty = input
-    			      ( id: 'userInput', 
+    			    def selectedProperty = input(
+    			        id: 'userInput', 
     			        message: 'Choose properties file', 
     			        parameters: [ [
     			          $class: 'ChoiceParameterDefinition', 
-    			          choices: jobs, 
+    			          choices: ${jobs}, 
     			          description: 'Properties', 
     			          name: 'prop'
     			        ] ]
