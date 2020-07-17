@@ -29,7 +29,8 @@ pipeline {
     		// input('Do you want to proceed?')
     			script {
     			    def jobs = sh 'docker image ls localhost:8082/grw --format  "{{ .Tag }}" '
-    			    joblist = "${jobs}"
+    			    imageslist = "${jobs}"
+    			    echo "${imageslist}"
     			    def selectedProperty = input(
     			        id: 'userInput', 
     			        message: 'Choose properties file', 
@@ -40,7 +41,7 @@ pipeline {
     			          name: 'prop'
     			        ] ]
     			      )
-    			    echo "${jobs}"
+    			    
     				def port = input(
     					id:				'portnumber',
     					message: 		'Enter Port Number JAVA_APP will listen on, 1000-65535',
