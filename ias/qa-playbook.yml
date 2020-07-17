@@ -1,0 +1,18 @@
+---
+- hosts: ""
+	tasks
+	- name: Log into Nexus
+		registry: 172.31.40.122:8082
+		username: upload
+		password: GrurAv0Wrooc
+		// reauthorize: yes
+	- name: Create JAVA_APP container
+		docker_container:
+	 		name: "grw_{{ build_Number }}"
+			image: "{{ src_image }}"
+			ports:
+			- "8080:8090/tcp"
+    - name: Log out of Nexus
+    	registry: 172.31.40.122:8082
+		docker_login:
+		state: absent

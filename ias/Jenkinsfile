@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         maven "maven363"
+        ansible "ansible"
     }
     environment {
     	WORKDIR = "./spring-boot-samples/spring-boot-sample-web-ui"
@@ -10,8 +11,10 @@ pipeline {
         NEXUS_PROTOCOL = 'http'
         NEXUS_URL = "localhost:8081"
         NEXUS_DOCKER_URL = "localhost:8082"
+        NEXUS_DOCKER_EXT_URL = "172.31.40.122:8082"
         NEXUS_REPOSITORY = "GrW"
         NEXUS_CREDENTIAL_ID = "6f6c7b81-b8ac-4229-a669-fd7701a03500"
+        host_ssh_creds = "901106e2-c876-49b7-af09-1d88e9fd6212"
         nexus_creds = credentials("6f6c7b81-b8ac-4229-a669-fd7701a03500")
         ARTIFACTPATH = "./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar"
     }
@@ -70,18 +73,38 @@ pipeline {
         	steps {
         		sh 'cp -f ./spring-boot-samples/spring-boot-sample-web-ui/target/spring-boot-sample-web-ui-2.1.16.BUILD-SNAPSHOT.jar ./ias'
         		dir ('./ias'){
-        		sh "ls -la ${pwd()}"
-        		sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker login ${NEXUS_DOCKER_URL} -u${nexus_creds_USR} -p${nexus_creds_PSW}  && docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER "
-        		sh 'docker logout'
+        			sh "ls -la ${pwd()}"
+        			sh "docker build . -t ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER && docker login ${NEXUS_DOCKER_URL} -u${nexus_creds_USR} -p${nexus_creds_PSW}  && docker push ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER "
+        			sh 'docker logout'
         		
         	
-        		sh 'docker container stop $(docker container ls --all --quiet|grep -v 449ae5e03ac8)'
+        			sh 'docker container stop $(docker container ls --all --quiet|grep -v 449ae5e03ac8)'
 			//	#	docker container rm $(docker container ls –aq)
-				echo "${PN}"
+					echo "${PN}"
 			//	echo "${port}"
-        		sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
+        			sh "docker run -d  -p ${PN}:8080 --name grw_$BUILD_NUMBER ${NEXUS_DOCKER_URL}/grw:$BUILD_NUMBER"
+        	//		script 
+        				ansiblePlaybook(
+        				    playbook: './ias/ci_-playbook.yml'
+        					inventory: 'hosts.ini'
+        					credentialsId: 'host_ssh_creds'
+        					become: true
+        					sudoUser(String user = 'ec2-user')
+        					colorized: true
+        					
+        					extraVars : [
+          						"deployType", "CI"
+          						"build_Number":$BUILD_NUMBER,
+          						"src_image": ${NEXUS_DOCKER_EXT_URL}/grw:$BUILD_NUMBER
+          					]
+          					)
+        					}
+        				}
+        		//	
         		}
-		}	} } }
+        		
+        		}
+		}	
 
 
 

@@ -1,0 +1,69 @@
+---
+- hosts: hometask
+  tasks:
+    - name: Install NGINX on CentOS
+      yum: pkg=nginx state=present update_cache=true
+      when: ansible_distribution == 'CentOS' 
+
+    - name: Install APACHE2 on Linux Mint
+      apt: pkg=apache2  state=present update_cache=true
+      when: ansible_distribution == 'Linux Mint'
+    - name: Create website dir
+      file:
+        path: /var/www/test.site
+        state: directory
+        mode: 555
+    - name: Copy web content
+      copy: 
+        src:    "{{ item }}"
+        dest:   /var/www/test.site
+      with_fileglob: 
+        - /home/ans/ansible/files/www/*
+    - name: set permissions on Linux Mint
+      file:
+        path: /var/www/test.site 
+        owner: www-data
+        mode: u=rwX,g=rX,o=rX
+        recurse: yes
+      when: ansible_distribution == 'Linux Mint'
+    - name: set permissions on CentOS 
+      file:
+        path: /var/www/test.site 
+        owner: nginx
+        mode: u=rwX,g=rX,o=rX
+        recurse: yes
+      when: ansible_distribution == 'CentOS'
+    - name: Copy config files to Linux MInt
+      copy: 
+        src: ./files/test.site.apache 
+        dest: /etc/apache2/sites-available/test.site.conf
+        owner: www-data
+      when: ansible_distribution == 'Linux Mint'
+    - name: Deactivates apache default sites 
+      command: a2dissite 000-default.conf default-ssl
+      ignore_errors: yes
+      when: ansible_distribution == 'Linux Mint'
+    - name: activate test.site
+      command: a2ensite test.site
+      ignore_errors: yes
+      notify: reload apache
+      when: ansible_distribution == 'Linux Mint'
+    - name: Modyfying config files on CentOS
+      copy: 
+        src: ./files/test.site.nginx 
+        dest: /etc/nginx/conf.d/test.site.conf
+        owner: nginx
+      when: ansible_distribution == 'CentOS'
+    - name: copy nginx.conf to CentOS
+      copy: 
+        src: ./files/nginx.conf 
+        dest: /etc/nginx/nginx.conf
+        owner: nginx
+      notify: restart nginx
+      when: ansible_distribution == 'CentOS'
+  handlers:
+    - name: reload apache
+      service: name=apache2 state=reloaded
+    - name: restart nginx
+      service: name=nginx state=restarted
+  become: yes
