@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven "maven363"
-        ansible "ansible"
+      //  ansible "ansible"
     }
     environment {
     	WORKDIR = "./spring-boot-samples/spring-boot-sample-web-ui"
